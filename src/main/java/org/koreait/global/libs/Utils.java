@@ -10,7 +10,9 @@ import org.koreait.main.controllers.MainController;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Scanner;
+import java.util.function.Predicate;
 
 public class Utils {
     /**
@@ -129,23 +131,43 @@ public class Utils {
      * @param message : 검증 실패시 안내 문구
      * @return
      */
+
     public static String getString(String title, String message) {
+        return getString(title, message, null);
+    }
+
+    public static String getString(String title, String message, List<Predicate<String>> predicates) {
         Scanner sc = Router.sc;
         while(true) {
             try {
                 System.out.print(title + ": ");
                 String input = sc.nextLine();
+                boolean isPass = true;
                 if (commonInputProcess(input, message)) {
-                    break;
+                    isPass = false;
                 }
 
-                return input;
+                // 추가 유효성 검사 S
+                if (predicates != null) {
+                    for (Predicate<String> predicate : predicates) {
+                        if (!predicate.test(input)) {
+                            isPass = false;
+                        }
+                    }
+                }
+                // 추가 유효성 검사 E
+
+                if (isPass) {
+                    return input;
+                }
+
+
 
             } catch (CommonException e) {
                 System.out.println(e.getMessage());
             }
         }
-        return null;
+
     }
 
     /**
