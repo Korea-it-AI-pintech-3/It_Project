@@ -31,6 +31,11 @@ public class Utils {
     public static void drawLine(char ch) {
         drawLine(ch, 10);
     }
+    public static void drawLine(int line) {drawLine('-', line);}
+
+
+
+
 
     /**
      * 템플릿 출력

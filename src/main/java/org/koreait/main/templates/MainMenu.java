@@ -11,8 +11,9 @@ public class MainMenu implements Template {
     @Override
     public void print() {
         StringBuffer sb = new StringBuffer();
-        sb.append("1. 게임하기..")
-                .append("2. 메뉴...\n")
+        sb.append("1. 가위바위보   ")
+                .append("2. 랜덤 가위바위보\n")
+                    .append("3. 마이 페이지  ")
                         .append("LOGOUT. 로그아웃\n");
 
         System.out.println(sb);

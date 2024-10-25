@@ -1,12 +1,12 @@
 package org.koreait.main.controllers;
 
+import org.koreait.HamdGame.controllers.GameController;
+import org.koreait.HamdGame.controllers.RandomGameController;
 import org.koreait.global.Controller;
 import org.koreait.global.exceptions.BadRequestException;
 import org.koreait.global.libs.Utils;
 import org.koreait.main.templates.GuestMenu;
 import org.koreait.main.templates.MainMenu;
-import org.koreait.product.controllers.ProductController;
-import org.koreait.product.controllers.ProductListController;
 import org.koreait.user.UserSession;
 import org.koreait.user.controllers.UserJoinController;
 import org.koreait.user.controllers.UserLoginController;
@@ -43,11 +43,11 @@ public class MainController extends Controller {
             } else {
                 // 메뉴 이동 처리 S
                 if (input.equals("1")) {
-                    Utils.loadController(ProductListController.class);
+                    Utils.loadController(GameController.class);
                     return;
 
                 } else if (input.equals("2")) {
-                    Utils.loadController(ProductController.class);
+                    Utils.loadController(RandomGameController.class);
                     return;
                 } else if (input.toUpperCase().equals("LOGOUT")) { // 로그아웃
                     UserSession.logout();
@@ -57,7 +57,7 @@ public class MainController extends Controller {
             }
 
             // 그외 메뉴라면 없는 메뉴이므로 메뉴 선택 안내
-            throw new BadRequestException("메뉴는 1, 2 중 선택하세요.");
+            throw new BadRequestException("메뉴는 1, 2, 3, LOGOUT 중 선택하세요.");
             // 메뉴 이동 처리 E
         });
     }

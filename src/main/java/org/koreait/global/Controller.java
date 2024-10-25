@@ -34,9 +34,9 @@ public abstract class Controller {
 
     // 공통 출력 부분
     public void common() {
-        Utils.drawLine('-', 30);
-        System.out.printf("상품 관리 프로그램 v1.0.0\n");
-        Utils.drawLine('-', 30);
+        Utils.drawLine('-', 42);
+        System.out.print("가위바위보 게임 v1.0.0\n");
+        Utils.drawLine('-', 42);
     }
 
     public abstract void view(); // 화면 구성
@@ -104,7 +104,7 @@ public abstract class Controller {
      * - getPromptText()를 하위 클래스에서 재정의하여 변경할 수 있습니다. 변경하지 않는다면 기본 메뉴 선택 문구로 출력이 됩니다.
      */
     public void prompt() {
-        Utils.drawLine('-', 30);
+        Utils.drawLine('-', 42);
         System.out.print(getPromptText());
 
         if (promptProcess == null) {
