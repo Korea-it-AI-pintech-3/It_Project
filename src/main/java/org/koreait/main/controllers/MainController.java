@@ -1,11 +1,15 @@
 package org.koreait.main.controllers;
 
+import org.koreait.HamdGame.controllers.GameController;
+import org.koreait.HamdGame.controllers.RandomGameController;
 import org.koreait.global.Controller;
 import org.koreait.global.exceptions.BadRequestException;
 import org.koreait.global.libs.Utils;
+import org.koreait.main.templates.GuestMenu;
 import org.koreait.main.templates.MainMenu;
-import org.koreait.product.controllers.ProductController;
-import org.koreait.product.controllers.ProductListController;
+import org.koreait.user.UserSession;
+import org.koreait.user.controllers.UserJoinController;
+import org.koreait.user.controllers.UserLoginController;
 
 /**
  * 콘솔 프로그램 메인 컨트롤러
@@ -21,26 +25,51 @@ public class MainController extends Controller {
          * Consumer 인터페이스는 void accept(T t) 으로 공급(사용자 입력)은 있지만 반환값은 없는, 즉 내부에서 처리하고 끝나는 유형을 정의 한것으로 이해하시면 됩니다.
          */
         setInputProcess(input -> {
+
             // 메인 메뉴 사용자 입력 처리
             if (input == null || input.isBlank()) { // 입력이 없다면 함수 종료
                 return;
             }
 
-            // 메뉴 이동 처리 S
-            if (input.equals("1")) { // 상품 목록
-                Utils.loadController(ProductListController.class);
+            if (!UserSession.isLogin()) { // 미로그인 상태 메뉴 선택 처리
+                if (input.equals("1")) { // 로그인
+                    Utils.loadController(UserLoginController.class);
+                    return;
+                } else if (input.equals("2")) { // 회원 가입
+                    Utils.loadController(UserJoinController.class);
+                    return;
+                }
 
-            } else if (input.equals("2")) { // 상품 등록
-                Utils.loadController(ProductController.class);
-            } else { // 그외 메뉴라면 없는 메뉴이므로 메뉴 선택 안내
-                throw new BadRequestException("메뉴는 1, 2 중 선택하세요.");
+            } else {
+                // 메뉴 이동 처리 S
+                if (input.equals("1")) {
+                    Utils.loadController(GameController.class);
+                    return;
+
+                } else if (input.equals("2")) {
+                    Utils.loadController(RandomGameController.class);
+                    return;
+                } else if (input.toUpperCase().equals("LOGOUT")) { // 로그아웃
+                    UserSession.logout();
+                    Utils.loadController(MainController.class); // 로그아웃 후에는 메인 페이지로 이동
+                    return;
+                }
             }
+
+            // 그외 메뉴라면 없는 메뉴이므로 메뉴 선택 안내
+            throw new BadRequestException("메뉴는 1, 2, 3, LOGOUT 중 선택하세요.");
             // 메뉴 이동 처리 E
         });
     }
 
     @Override
     public void view() {
+        // 로그인 상태가 아니면 로그인 화면으로 전환
+        if (!UserSession.isLogin()) {
+           Utils.loadTpl(GuestMenu.class);
+            return;
+        }
+
         // 템플릿 출력
         Utils.loadTpl(MainMenu.class);
     }
