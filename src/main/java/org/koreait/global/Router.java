@@ -1,3 +1,4 @@
+/*
 package org.koreait.global;
 
 import org.koreait.global.exceptions.CommonException;
@@ -14,10 +15,12 @@ public class Router {
         sc = new Scanner(System.in);
     }
 
-    /**
+    */
+/**
      * 컨트롤러 라우터 실행
      *
-     */
+     *//*
+
     public void execute() {
         while(true) {
             try {
@@ -45,3 +48,4 @@ public class Router {
         }
     }
 }
+*/
